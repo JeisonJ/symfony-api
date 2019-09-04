@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="api_user")
  */
 class User
 {
@@ -18,7 +19,7 @@ class User
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Rol", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="rol_id", referencedColumnName="id", nullable=false)
      */
     private $rol;
 
