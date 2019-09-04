@@ -26,14 +26,14 @@ class DeleteRolHandler extends BaseHandler
         $manager = $this->getDoctrine()->getManager();
 
         // Valida si no existen usuarios que tengan el rol asociado.
-        $rolExist = $manager->getRepository(Rol::class)->find($params['rolId']);
-        $rolUser  = $manager->getRepository(User::class)->findBy(['rol' => $params['rolId']]);
+        $rolExist = $manager->getRepository(Rol::class)->find($params['id']);
+        $rolUser  = $manager->getRepository(User::class)->findBy(['rol' => $params['id']]);
 
         if (!$rolExist) {
             throw new VicanderException(
                 'Symfony no rol found',
                 BaseHandler::DELETE_ROL,
-                ['message' => 'No se ha encontrado el rol con id '.$params['rolId']]
+                ['message' => 'No se ha encontrado el rol con id '.$params['id']]
             );
         } 
         

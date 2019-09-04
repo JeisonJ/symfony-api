@@ -20,17 +20,20 @@ class UpdateRolHandler extends BaseHandler
      */
     protected function handler() : array
     {
+        $params = $this->getParams();
         $manager = $this->getDoctrine()->getManager();
 
-        $rol = $manager->getRepository(Rol::class)->find(6);
+        $rol = $manager->getRepository(Rol::class)->find($params['id']);
 
         if (!$rol) {
-            // throw $this->createNotFoundException(
-            //     'No product found for id '.$id
-            // );
+            throw new VicanderException(
+                'Symfony no rol found',
+                BaseHandler::CODE_USER_NOT_EXISTS,
+                ['message' => 'No se ha encontrado el rol con id '.$params['id']]
+            );
         }
 
-        $rol->setName('New product rol!');
+        $rol->setName($params['name']);
         $manager->flush();
 
         return [
