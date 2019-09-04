@@ -52,7 +52,7 @@ class RolController extends AbstractController
     /**
      * Elimina un rol.
      * 
-     * @Route("/", name="delete_rol", methods="DELETE")
+     * @Route("/{id}", name="delete_rol", methods="DELETE")
      * 
      *
      * @return JsonResponse
@@ -68,7 +68,7 @@ class RolController extends AbstractController
     /**
      * Actualiza un rol.
      * 
-     * @Route("/", name="update_rol", methods="PUT")
+     * @Route("/{id}", name="update_rol", methods="PUT")
      * 
      *
      * @return JsonResponse
