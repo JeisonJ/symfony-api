@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RolRepository")
+ * @ORM\Table(name="api_rol")
  */
 class Rol
 {
@@ -51,7 +52,7 @@ class Rol
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        // $this->roles = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
 

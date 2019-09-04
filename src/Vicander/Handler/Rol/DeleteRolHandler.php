@@ -27,8 +27,10 @@ class DeleteRolHandler extends BaseHandler
 
         // Valida si no existen usuarios que tengan el rol asociado.
         $rolExist = $manager->getRepository(Rol::class)->find($params['rolId']);
-        var_dump($rolExist);
+        // var_dump($rolExist);
         $rolUser  = $manager->getRepository(User::class)->findBy(['rol' => $params['rolId']]);
+
+        return $rolUser;
 
         if (!$rolExist) {
             throw new VicanderException(
