@@ -3,8 +3,10 @@
 namespace App\Vicander\Handler\Rol;
 
 use App\Entity\Rol;
+use App\Entity\User;
 use App\Vicander\Handler\BaseHandler;
 use Symfony\Component\Serializer\Serializer;
+use App\Vicander\Exception\VicanderException;
 
 /**
  *
@@ -20,24 +22,35 @@ class DeleteRolHandler extends BaseHandler
      */
     protected function handler() : array
     {
+        $params = $this->getParams();
         $manager = $this->getDoctrine()->getManager();
 
-        $rol = $manager->getRepository(Rol::class)->find(5);
+        // Valida si no existen usuarios que tengan el rol asociado.
+        $rolExist = $manager->getRepository(Rol::class)->find($params['rolId']);
+        var_dump($rolExist);
+        $rolUser  = $manager->getRepository(User::class)->findBy(['rol' => $params['rolId']]);
 
-        if (!$rol) {
-            // throw $this->createNotFoundException(
-            //     'No product found for id '.$id
-            // );
+        if (!$rolExist) {
+            throw new VicanderException(
+                'Symfony no rol found',
+                BaseHandler::DELETE_ROL,
+                ['message' => 'No se ha encontrado el rol con id '.$params['rolId']]
+            );
+        } 
+        
+        if (!$rolUser) {
+            throw new VicanderException(
+                'Symfony Rol already used',
+                BaseHandler::DELETE_ROL,
+                ['message' => 'El rol ya está siendo usado por usuarios']
+            );
         }
 
-        $manager->remove($rol);
-        $manager->flush();
-        
+        // si no cuenta con usuarios asociados procede a eliminar.
+        $manager->remove($rolExist);
+        $manager->flush();  
 
-        return [
-            'id' => $rol->getId(),
-            'name' => $rol->getName()
-        ];
+        return ["status" => 200];
     }
 
     /**

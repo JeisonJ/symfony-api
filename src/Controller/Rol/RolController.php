@@ -36,7 +36,7 @@ class RolController extends AbstractController
     /**
      * Crea un rol.
      * 
-     * @Route("/create", name="create_rol", methods="GET")
+     * @Route("/", name="create_rol", methods="POST")
      * 
      *
      * @return JsonResponse

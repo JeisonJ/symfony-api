@@ -24,7 +24,7 @@ class CreateRolHandler extends BaseHandler
         $manager = $this->getDoctrine()->getManager();
 
         $rol = new Rol;
-        $rol->setName('Prueba 1');
+        $rol->setName($params['name']);
 
         $manager->persist($rol);
         $manager->flush();
@@ -46,6 +46,8 @@ class CreateRolHandler extends BaseHandler
      */
     protected function validationRules() : array
     {
-        return [];
+        return [
+            'name' => 'required'
+        ];
     }
 }
