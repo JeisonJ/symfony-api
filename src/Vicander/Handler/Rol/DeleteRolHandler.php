@@ -27,10 +27,7 @@ class DeleteRolHandler extends BaseHandler
 
         // Valida si no existen usuarios que tengan el rol asociado.
         $rolExist = $manager->getRepository(Rol::class)->find($params['rolId']);
-        // var_dump($rolExist);
         $rolUser  = $manager->getRepository(User::class)->findBy(['rol' => $params['rolId']]);
-
-        return $rolUser;
 
         if (!$rolExist) {
             throw new VicanderException(
@@ -40,7 +37,7 @@ class DeleteRolHandler extends BaseHandler
             );
         } 
         
-        if (!$rolUser) {
+        if (!empty($rolUser)) {
             throw new VicanderException(
                 'Symfony Rol already used',
                 BaseHandler::DELETE_ROL,
