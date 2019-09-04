@@ -23,19 +23,20 @@ class DetailUserHandler extends BaseHandler
         $params = $this->getParams();
         $manager = $this->getDoctrine()->getManager();
 
-        $users = $manager->getRepository(User::class)->findAll();
+        $user = $manager->getRepository(User::class)->find($params['id']);
 
-        $response = [];
-
-        foreach ($users as $key => $value) {
-        	$response[] = [
-        		'id' => $value->getId(),
-        		'name' => $value->getName(),
-        		'roll' => $value->getRoll(),
-        		'age' => $value->getAge()
-        	];
+        if (!$user) {
+            throw new VicanderException('Does not exist user', BaseHandler::CODE_EXCEPTION,['message' => 'El usuario no existe'] );
         }
-        return $respose;
+        
+        $response = [
+            'name'=>$user->getName(),
+            'rol'=>$user->getRol()->getName(),
+            'age'=>$user->getAge(),
+
+        ];
+
+        return $response;
     }
 
     /**

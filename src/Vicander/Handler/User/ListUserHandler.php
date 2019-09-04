@@ -4,6 +4,7 @@ namespace App\Vicander\Handler\User;
 
 use App\Vicander\Handler\BaseHandler;
 use App\Entity\User;
+use App\Entity\Rol;
 use App\Vicander\Exception\VicanderException;
 
 /**
@@ -31,11 +32,11 @@ class ListUserHandler extends BaseHandler
         	$response[] = [
         		'id' => $value->getId(),
         		'name' => $value->getName(),
-        		'roll' => $value->getRoll(),
+        		'roll' => $value->getRol()->getName(),
         		'age' => $value->getAge()
         	];
         }
-        return $respose;
+        return $response;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Vicander\Handler\User;
 
 use App\Vicander\Handler\BaseHandler;
 use App\Entity\User;
+use App\Entity\Rol;
 use App\Vicander\Exception\VicanderException;
 
 /**
@@ -23,19 +24,29 @@ class CreateUserHandler extends BaseHandler
         $params = $this->getParams();
         $manager = $this->getDoctrine()->getManager();
 
-        $users = $manager->getRepository(User::class)->findAll();
+        $roll = $manager->getRepository(Rol::class)->find($params['roll_id']);
 
-        $response = [];
-
-        foreach ($users as $key => $value) {
-        	$response[] = [
-        		'id' => $value->getId(),
-        		'name' => $value->getName(),
-        		'roll' => $value->getRoll(),
-        		'age' => $value->getAge()
-        	];
+        if (!$roll) {
+            throw new VicanderException('Does not exist roll', BaseHandler::CODE_EXCEPTION,['message' => 'El rol no existe'] );
         }
-        return $respose;
+
+        $user = new User();
+
+        $user
+                ->setName($params['name'])
+                ->setRol($roll)
+                ->setAge($params['age'])
+                ->setDateCreated(new \DateTime('now'));
+
+        $manager->persist($user);
+        $manager->flush();
+
+        return [
+            'name' => $user->getName(),
+            'roll' => $roll->getName(),
+            'age' => $user->getAge(),
+
+        ];
     }
 
     /**
@@ -50,6 +61,9 @@ class CreateUserHandler extends BaseHandler
     protected function validationRules() : array
     {
         return [
+            'roll_id' => 'required',
+            'name' => 'required',
+            'age' => 'required'
         ];
     }
 }
