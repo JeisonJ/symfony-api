@@ -23,7 +23,7 @@ class UserController extends AbstractController
     /**
      * Listar Usuarios
      *
-     * @Route("", name="list_users", methods="GET")
+     * @Route("/", name="list_users", methods="GET")
      *
      * @return JsonResponse
      */
@@ -40,7 +40,7 @@ class UserController extends AbstractController
     /**
      * Crear Usuarios
      *
-     * @Route("", name="create_users", methods="POST")
+     * @Route("/", name="create_users", methods="POST")
      *
      * @return JsonResponse
      */

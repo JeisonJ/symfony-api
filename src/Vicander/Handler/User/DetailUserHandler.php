@@ -31,7 +31,10 @@ class DetailUserHandler extends BaseHandler
         
         $response = [
             'name'=>$user->getName(),
-            'rol'=>$user->getRol()->getName(),
+            'rol'=>[
+                'id' => $user->getRol()->getId(),
+                'name' => $user->getRol()->getName()
+                ],
             'age'=>$user->getAge(),
 
         ];
